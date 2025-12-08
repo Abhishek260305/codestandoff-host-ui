@@ -70,5 +70,5 @@ Make sure the following remote applications are running:
 
 ## Repository
 
-https://github.com/Abhishek260305/host-ui
+https://github.com/Abhishek260305/codestandoff-host-ui
 
