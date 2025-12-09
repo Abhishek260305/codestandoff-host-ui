@@ -15,48 +15,161 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Remote component loader
-function RemoteComponent({ 
-  remoteName, 
-  componentName 
-}: { 
-  remoteName: string; 
-  componentName: string;
-}) {
+// Remote component loaders - using Module Federation runtime API
+// This approach avoids webpack build-time resolution issues
+const DashboardRemote = () => {
   const [Component, setComponent] = useState<React.ComponentType | null>(null);
   const [error, setError] = useState(false);
-
+  
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import(remoteName)
-        .then((mod) => {
-          setComponent(() => mod.default);
-        })
-        .catch((err) => {
-          console.error(`Failed to load ${componentName}:`, err);
-          setError(true);
-        });
-    }
-  }, [remoteName, componentName]);
-
-  if (error) {
-    return <div className="p-4 text-red-500">{componentName} not available</div>;
-  }
-
-  if (!Component) {
-    return <div className="p-4">Loading {componentName}...</div>;
-  }
-
+    if (typeof window === 'undefined') return;
+    
+    const loadRemote = async () => {
+      try {
+        // Wait for Module Federation to initialize
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Use dynamic import - Module Federation runtime will intercept
+        // The build error is expected and can be ignored
+        const mod = await import('dashboard-ui/Dashboard' as any);
+        setComponent(() => mod.default || mod);
+      } catch (err: any) {
+        console.error('Failed to load Dashboard:', err);
+        setError(true);
+      }
+    };
+    
+    loadRemote();
+  }, []);
+  
+  if (error) return <div className="p-4 text-red-500">Dashboard not available</div>;
+  if (!Component) return <div className="p-4">Loading Dashboard...</div>;
   return <Component />;
-}
+};
+
+const TrainingRemote = () => {
+  const [Component, setComponent] = useState<React.ComponentType | null>(null);
+  const [error, setError] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const loadRemote = async () => {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const mod = await import('training-ui/Training' as any);
+        setComponent(() => mod.default || mod);
+      } catch (err: any) {
+        console.error('Failed to load Training:', err);
+        setError(true);
+      }
+    };
+    
+    loadRemote();
+  }, []);
+  
+  if (error) return <div className="p-4 text-red-500">Training not available</div>;
+  if (!Component) return <div className="p-4">Loading Training...</div>;
+  return <Component />;
+};
+
+const OneVOneRemote = () => {
+  const [Component, setComponent] = useState<React.ComponentType | null>(null);
+  const [error, setError] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const loadRemote = async () => {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const mod = await import('onevone-ui/OneVOne' as any);
+        setComponent(() => mod.default || mod);
+      } catch (err: any) {
+        console.error('Failed to load 1v1:', err);
+        setError(true);
+      }
+    };
+    
+    loadRemote();
+  }, []);
+  
+  if (error) return <div className="p-4 text-red-500">1v1 not available</div>;
+  if (!Component) return <div className="p-4">Loading 1v1...</div>;
+  return <Component />;
+};
+
+const PlaygroundRemote = () => {
+  const [Component, setComponent] = useState<React.ComponentType | null>(null);
+  const [error, setError] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const loadRemote = async () => {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const mod = await import('playground-ui/Playground' as any);
+        setComponent(() => mod.default || mod);
+      } catch (err: any) {
+        console.error('Failed to load Playground:', err);
+        setError(true);
+      }
+    };
+    
+    loadRemote();
+  }, []);
+  
+  if (error) return <div className="p-4 text-red-500">Playground not available</div>;
+  if (!Component) return <div className="p-4">Loading Playground...</div>;
+  return <Component />;
+};
+
+const SignupRemote = () => {
+  const [Component, setComponent] = useState<React.ComponentType | null>(null);
+  const [error, setError] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const loadRemote = async () => {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const mod = await import('signup-builder-ui/Signup' as any);
+        setComponent(() => mod.default || mod);
+      } catch (err: any) {
+        console.error('Failed to load Signup:', err);
+        setError(true);
+      }
+    };
+    
+    loadRemote();
+  }, []);
+  
+  if (error) return <div className="p-4 text-red-500">Signup not available</div>;
+  if (!Component) return <div className="p-4">Loading Signup...</div>;
+  return <Component />;
+};
 
 export default function Home() {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     // Set document title
     if (typeof window !== 'undefined') {
       document.title = 'CodeStandoff 2.0';
     }
   }, []);
+
+  // Return a simple loading state during SSR - this prevents any SSR errors
+  if (!isClient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -129,35 +242,35 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-2">Dashboard</h3>
               <ClientOnly>
-                <RemoteComponent remoteName="dashboard-ui/Dashboard" componentName="Dashboard" />
+                <DashboardRemote />
               </ClientOnly>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-2">Training</h3>
               <ClientOnly>
-                <RemoteComponent remoteName="training-ui/Training" componentName="Training" />
+                <TrainingRemote />
               </ClientOnly>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-2">1v1</h3>
               <ClientOnly>
-                <RemoteComponent remoteName="onevone-ui/OneVOne" componentName="1v1" />
+                <OneVOneRemote />
               </ClientOnly>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-2">Playground</h3>
               <ClientOnly>
-                <RemoteComponent remoteName="playground-ui/Playground" componentName="Playground" />
+                <PlaygroundRemote />
               </ClientOnly>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-2">Sign Up</h3>
               <ClientOnly>
-                <RemoteComponent remoteName="signup-builder-ui/Signup" componentName="Signup" />
+                <SignupRemote />
               </ClientOnly>
             </div>
           </div>
