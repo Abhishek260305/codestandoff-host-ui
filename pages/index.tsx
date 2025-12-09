@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { setCurrentRoute } from '../store/slices/appSlice';
 
 type Route = 'dashboard' | 'training' | '1v1' | 'playground' | 'signup' | null;
 
@@ -200,7 +202,8 @@ const SignupRemote = () => {
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState<Route>('dashboard');
+  const dispatch = useAppDispatch();
+  const currentRoute = useAppSelector((state) => state.app.currentRoute);
 
   useEffect(() => {
     setIsClient(true);
@@ -278,8 +281,12 @@ export default function Home() {
     }
   };
 
+  const handleRouteChange = (route: Route) => {
+    dispatch(setCurrentRoute(route));
+  };
+
   return (
-    <Layout currentRoute={currentRoute} onRouteChange={setCurrentRoute}>
+    <Layout currentRoute={currentRoute} onRouteChange={handleRouteChange}>
       {renderRemote()}
     </Layout>
   );

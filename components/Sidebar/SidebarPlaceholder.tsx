@@ -1,4 +1,5 @@
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAppSelector } from '../../store/hooks';
 
 type Route = 'dashboard' | 'training' | '1v1' | 'playground' | 'signup' | null;
 
@@ -9,6 +10,8 @@ interface SidebarPlaceholderProps {
 
 export default function SidebarPlaceholder({ onRouteChange, currentRoute }: SidebarPlaceholderProps) {
   const { theme, toggleTheme } = useTheme();
+  const user = useAppSelector((state) => state.user.currentUser);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   
   const menuItems = [
     { id: 'dashboard' as Route, label: 'Dashboard', icon: '📊' },
