@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import SidebarPlaceholder from '../Sidebar/SidebarPlaceholder';
 
-type Route = 'dashboard' | 'training' | '1v1' | 'playground' | 'signup' | null;
+type Route = 'dashboard' | 'training' | '1v1' | 'playground' | null;
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,14 +11,14 @@ interface LayoutProps {
 
 export default function Layout({ children, currentRoute, onRouteChange }: LayoutProps) {
   return (
-    <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-black transition-colors duration-200">
       {/* Sidebar - Placeholder until real sidebar is ready */}
       <div className="flex shrink-0">
         <SidebarPlaceholder currentRoute={currentRoute} onRouteChange={onRouteChange} />
       </div>
 
       {/* Main Content Area - where remotes render */}
-      <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-black transition-colors duration-200">
         <div className="h-full">
           {children}
         </div>

@@ -4,12 +4,12 @@
 
 /* Theme-aware CSS variables */
 :root {
-  --bg-primary: 17, 24, 39; /* gray-900 */
-  --bg-secondary: 31, 41, 55; /* gray-800 */
-  --bg-content: 17, 24, 39; /* gray-900 */
+  --bg-primary: 0, 0, 0; /* black */
+  --bg-secondary: 0, 0, 0; /* black */
+  --bg-content: 0, 0, 0; /* black */
   --text-primary: 255, 255, 255; /* white */
-  --text-secondary: 209, 213, 219; /* gray-300 */
-  --border-color: 31, 41, 55; /* gray-800 */
+  --text-secondary: 255, 255, 255; /* white */
+  --border-color: 38, 38, 38; /* neutral-800 */
 }
 
 .light {
@@ -22,12 +22,12 @@
 }
 
 .dark {
-  --bg-primary: 17, 24, 39; /* gray-900 */
-  --bg-secondary: 31, 41, 55; /* gray-800 */
-  --bg-content: 17, 24, 39; /* gray-900 */
+  --bg-primary: 0, 0, 0; /* black */
+  --bg-secondary: 0, 0, 0; /* black */
+  --bg-content: 0, 0, 0; /* black */
   --text-primary: 255, 255, 255; /* white */
-  --text-secondary: 209, 213, 219; /* gray-300 */
-  --border-color: 31, 41, 55; /* gray-800 */
+  --text-secondary: 255, 255, 255; /* white */
+  --border-color: 38, 38, 38; /* neutral-800 */
 }
 
 /* Default to dark mode - will be overridden by ThemeContext */

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Route = 'dashboard' | 'training' | '1v1' | 'playground' | 'signup' | null;
+export type Route = 'dashboard' | 'training' | '1v1' | 'playground' | null;
 
 export interface AppState {
   currentRoute: Route;

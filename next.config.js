@@ -22,7 +22,6 @@ module.exports = {
             'training-ui': `training_ui@${getRemoteUrl('training-ui', 3002)}`,
             'onevone-ui': `onevone_ui@${getRemoteUrl('onevone-ui', 3003)}`,
             'playground-ui': `playground_ui@${getRemoteUrl('playground-ui', 3004)}`,
-            'signup-builder-ui': `signup_builder_ui@${getRemoteUrl('signup-builder-ui', 3005)}`,
           },
           filename: 'static/chunks/remoteEntry.js',
           exposes: {},
@@ -50,7 +49,6 @@ module.exports = {
         { module: /training-ui/ },
         { module: /onevone-ui/ },
         { module: /playground-ui/ },
-        { module: /signup-builder-ui/ },
       ];
       
       // Suppress specific "Module not found" errors for Module Federation remotes
