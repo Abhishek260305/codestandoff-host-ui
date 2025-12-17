@@ -26,6 +26,8 @@ export function useAuth(): UseAuthReturn {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_refresh_token');
     localStorage.removeItem('auth_expires_at');
+    // Reset theme to dark mode on logout
+    localStorage.setItem('theme', 'dark');
   };
 
   const checkAuth = useCallback(async (): Promise<boolean> => {

@@ -1,0 +1,112 @@
+/**
+ * ============================================================================
+ * DESIGN TOKENS - SINGLE SOURCE OF TRUTH
+ * ============================================================================
+ * 
+ * This file defines all color tokens for the entire MFE application.
+ * ALL micro-frontends MUST consume these tokens - NO local color definitions.
+ * 
+ * Architecture:
+ * - Host app owns and exports these tokens
+ * - Remote MFEs inherit tokens via Module Federation
+ * - Theme switching via .dark class on <html>
+ * 
+ * ❌ FORBIDDEN: bg-white, bg-black, text-gray-*, border-gray-* in MFEs
+ * ✅ REQUIRED: Use token-based classes (bg-primary, text-primary, etc.)
+ * ============================================================================
+ */
+
+:root {
+  /* ==========================================================================
+   * LIGHT MODE (Default)
+   * LeetCode-inspired light theme
+   * ========================================================================== */
+  
+  /* Backgrounds */
+  --bg-primary: #ffffff;           /* Main page background */
+  --bg-secondary: #f7f8fa;         /* Cards, elevated surfaces */
+  --bg-tertiary: #eff0f3;          /* Subtle backgrounds, alternating rows */
+  --bg-hover: #e8e9eb;             /* Hover states */
+  --bg-active: #dcdee0;            /* Active/pressed states */
+  
+  /* Text */
+  --text-primary: #262626;         /* Main text, headings */
+  --text-secondary: #595959;       /* Secondary text, labels */
+  --text-tertiary: #8c8c8c;        /* Muted text, placeholders */
+  --text-disabled: #bfbfbf;        /* Disabled text */
+  
+  /* Borders */
+  --border-primary: #e3e3e3;       /* Main borders */
+  --border-secondary: #d9d9d9;     /* Subtle borders */
+  --border-hover: #bfbfbf;         /* Hover state borders */
+  
+  /* Semantic Colors - Status */
+  --color-success: #2cbb5d;        /* Easy difficulty, success states */
+  --color-warning: #ffc01e;        /* Medium difficulty, warnings */
+  --color-error: #ef4743;          /* Hard difficulty, errors */
+  --color-info: #0ea5e9;           /* Info, links */
+  
+  /* Input/Form */
+  --input-bg: #ffffff;
+  --input-border: #d9d9d9;
+  --input-focus-border: #0ea5e9;
+  --input-placeholder: #8c8c8c;
+}
+
+/* ==========================================================================
+ * DARK MODE
+ * LeetCode-inspired dark theme - rgb(26, 26, 26) base
+ * Activated via .dark class on <html> element
+ * ========================================================================== */
+.dark {
+  /* Backgrounds */
+  --bg-primary: #1a1a1a;           /* Main page background - LeetCode dark */
+  --bg-secondary: #262626;         /* Cards, elevated surfaces */
+  --bg-tertiary: #303030;          /* Subtle backgrounds, alternating rows */
+  --bg-hover: #3a3a3a;             /* Hover states */
+  --bg-active: #454545;            /* Active/pressed states */
+  
+  /* Text */
+  --text-primary: #eff1f6;         /* Main text, headings */
+  --text-secondary: #9ca3af;       /* Secondary text, labels */
+  --text-tertiary: #6b7280;        /* Muted text, placeholders */
+  --text-disabled: #4b5563;        /* Disabled text */
+  
+  /* Borders */
+  --border-primary: #303030;       /* Main borders */
+  --border-secondary: #3a3a3a;     /* Subtle borders */
+  --border-hover: #454545;         /* Hover state borders */
+  
+  /* Semantic Colors - Status (same in both themes for consistency) */
+  --color-success: #2cbb5d;
+  --color-warning: #ffc01e;
+  --color-error: #ef4743;
+  --color-info: #3b82f6;
+  
+  /* Input/Form */
+  --input-bg: #262626;
+  --input-border: #3a3a3a;
+  --input-focus-border: #3b82f6;
+  --input-placeholder: #6b7280;
+}
+
+/* ==========================================================================
+ * BASE STYLES
+ * Applied globally to ensure consistent theming
+ * ========================================================================== */
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Ensure smooth transitions for all token-based colors */
+* {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+

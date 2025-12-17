@@ -2,42 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme-aware CSS variables */
-:root {
-  --bg-primary: 0, 0, 0; /* black */
-  --bg-secondary: 0, 0, 0; /* black */
-  --bg-content: 0, 0, 0; /* black */
-  --text-primary: 255, 255, 255; /* white */
-  --text-secondary: 255, 255, 255; /* white */
-  --border-color: 38, 38, 38; /* neutral-800 */
-}
+/**
+ * Import centralized design tokens
+ * This is the SINGLE SOURCE OF TRUTH for all colors in the MFE architecture
+ */
+@import './design-tokens.css';
 
-.light {
-  --bg-primary: 249, 250, 251; /* gray-50 */
-  --bg-secondary: 243, 244, 246; /* gray-100 */
-  --bg-content: 255, 255, 255; /* white */
-  --text-primary: 17, 24, 39; /* gray-900 */
-  --text-secondary: 75, 85, 99; /* gray-600 */
-  --border-color: 229, 231, 235; /* gray-200 */
-}
+/**
+ * ============================================================================
+ * UTILITY CLASSES
+ * These classes use CSS variables from design-tokens.css
+ * All MFEs should use these classes instead of hard-coded colors
+ * ============================================================================
+ */
 
-.dark {
-  --bg-primary: 0, 0, 0; /* black */
-  --bg-secondary: 0, 0, 0; /* black */
-  --bg-content: 0, 0, 0; /* black */
-  --text-primary: 255, 255, 255; /* white */
-  --text-secondary: 255, 255, 255; /* white */
-  --border-color: 38, 38, 38; /* neutral-800 */
+@layer utilities {
+  /* Background utilities */
+  .bg-primary {
+    background-color: var(--bg-primary);
+  }
+  .bg-secondary {
+    background-color: var(--bg-secondary);
+  }
+  .bg-tertiary {
+    background-color: var(--bg-tertiary);
+  }
+  .bg-hover {
+    background-color: var(--bg-hover);
+  }
+  
+  /* Text utilities */
+  .text-primary {
+    color: var(--text-primary);
+  }
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+  .text-tertiary {
+    color: var(--text-tertiary);
+  }
+  
+  /* Border utilities */
+  .border-primary {
+    border-color: var(--border-primary);
+  }
+  .border-secondary {
+    border-color: var(--border-secondary);
+  }
+  
+  /* Semantic utilities */
+  .text-success {
+    color: var(--color-success);
+  }
+  .text-warning {
+    color: var(--color-warning);
+  }
+  .text-error {
+    color: var(--color-error);
+  }
+  .text-info {
+    color: var(--color-info);
+  }
 }
-
-/* Default to dark mode - will be overridden by ThemeContext */
-html.dark {
-  /* Dark mode is active */
-}
-
-body {
-  background-color: rgb(var(--bg-content));
-  color: rgb(var(--text-primary));
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-

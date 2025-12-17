@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -15,12 +15,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    // Check localStorage for saved theme preference
+    // Always default to dark mode
+    // Only use saved theme if it's explicitly set to 'dark'
     const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
+    if (savedTheme === 'dark') {
+      setTheme('dark');
     } else {
-      // Default to dark mode
+      // Always default to dark mode
+      setTheme('dark');
       localStorage.setItem('theme', 'dark');
     }
     
@@ -75,19 +77,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       // Set initial theme (dark by default)
       const savedTheme = localStorage.getItem('theme') || 'dark';
       if (savedTheme === 'dark') {
-        root.classList.add('dark');
+      root.classList.add('dark');
       } else {
         root.classList.add('light');
       }
     }
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const newTheme = prev === 'dark' ? 'light' : 'dark';
       return newTheme;
     });
-  };
+  }, []);
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
